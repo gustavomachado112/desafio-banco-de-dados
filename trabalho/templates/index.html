@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Cadastro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📝 Sistema de Cadastro</h1>
+            <p class="subtitle">Python + Flask - VS Code</p>
+        </div>
+        
+        <div class="menu">
+            <a href="{{ url_for('cadastro') }}" class="btn btn-primary">
+                ➕ Fazer Cadastro
+            </a>
+            <a href="{{ url_for('lista') }}" class="btn btn-secondary">
+                👥 Ver Cadastros ({{ usuarios|length }})
+            </a>
+        </div>
+        
+        <div class="info-card">
+            <h3>🚀 Como executar no VS Code:</h3>
+            <ol>
+                <li>Abra o Terminal no VS Code (Ctrl + `)</li>
+                <li>Execute: <code>python app.py</code></li>
+                <li>Abra: <code>http://localhost:5000</code></li>
+                <li>Pronto! Sistema funcionando! 🎉</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Cadastros</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>👥 Lista de Cadastros</h1>
+            <div class="header-actions">
+                <span class="badge">{{ usuarios|length }} cadastros</span>
+                <a href="{{ url_for('index') }}" class="btn btn-small">🏠 Início</a>
+            </div>
+        </div>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% if usuarios %}
+            <div class="table-container">
+                <table class="tabela">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Telefone</th>
+                            <th>Idade</th>
+                            <th>Data Cadastro</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for usuario in usuarios %}
+                        <tr>
+                            <td class="center">{{ usuario.id }}</td>
+                            <td>{{ usuario.nome }}</td>
+                            <td>{{ usuario.email }}</td>
+                            <td>{{ usuario.telefone or 'Não informado' }}</td>
+                            <td class="center">{{ usuario.idade or '-' }}</td>
+                            <td>{{ usuario.data_cadastro }}</td>
+                            <td class="actions">
+                                <a href="{{ url_for('excluir', usuario_id=usuario.id) }}" 
+                                   class="btn btn-danger btn-small"
+                                   onclick="return confirm('Tem certeza que deseja excluir {{ usuario.nome }}?')">
+                                    🗑️ Excluir
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="list-actions">
+                <a href="{{ url_for('cadastro') }}" class="btn btn-primary">
+                    ➕ Novo Cadastro
+                </a>
+                {% if usuarios %}
+                <a href="{{ url_for('limpar_tudo') }}" 
+                   class="btn btn-danger"
+                   onclick="return confirm('ATENÇÃO: Isso irá apagar TODOS os cadastros. Continuar?')">
+                    🗑️ Limpar Tudo
+                </a>
+                {% endif %}
+                <a href="{{ url_for('index') }}" class="btn btn-secondary">
+                    ↩️ Voltar
+                </a>
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">📭</div>
+                <h2>Nenhum cadastro encontrado</h2>
+                <p>Você ainda não cadastrou nenhuma pessoa.</p>
+                <a href="{{ url_for('cadastro') }}" class="btn btn-primary">
+                    ➕ Fazer Primeiro Cadastro
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
